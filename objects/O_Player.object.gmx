@@ -25,7 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_speed=.25;
+            <string>/// CODE RUN AT CREATION
+
+image_speed=.25;
 xSpeed=0;
 ySpeed=0;
 grounded=false;
@@ -43,13 +45,15 @@ shot_speed=16;
 overheat = 1;
 overheat_max = 10;
 overheat_increment = .5;
-overheat_decrement = .05;
+overheat_decrement = .15;
 
 //keeping track of direction
 facing=1;
 left=0;
 right=1;
 
+death=false;
+multiplyer=3;
 </string>
           </argument>
         </arguments>
@@ -199,53 +203,42 @@ right=1;
             <string>///COLLISION
 
     //sets max fall speed
- if (ySpeed &lt;10)
-    {   
-        ySpeed+=grav;
+    if (ySpeed &lt; 10) {
+        ySpeed += grav;
     }
 
     //horizontal collision
-    if(place_meeting(x + xSpeed, y,O_Ground))
-    {
-        while(!place_meeting(x+sign(xSpeed),y,O_Ground))
-        {
+    if (place_meeting(x + xSpeed, y, O_Ground)) {
+        while (!place_meeting(x + sign(xSpeed), y, O_Ground)) {
             x += sign(xSpeed);
-            
+
         }
-        xSpeed =0;
+        xSpeed = 0;
     }
-    
+
     //vertical collision
- 
-    if(place_meeting(x, y + ySpeed,O_Ground))
-    {
-        while(!place_meeting(x,y+sign(ySpeed),O_Ground))
-        {
+
+    if (place_meeting(x, y + ySpeed, O_Ground)) {
+        while (!place_meeting(x, y + sign(ySpeed), O_Ground)) {
             y += sign(ySpeed);
         }
         // When you touch the ground, set the animation back to standing
-        if(sprite_index=S_Jump_L)
-        {
-            sprite_index=S_DogStand_L;
+        if (sprite_index = S_Jump_L) {
+            sprite_index = S_DogStand_L;
         }
-          if(sprite_index=S_Jump_R)
-        {
-            sprite_index=S_DogStand_R;
+        if (sprite_index = S_Jump_R) {
+            sprite_index = S_DogStand_R;
         }
-       ySpeed=0;
-        grounded=true;
-        
-    }
-    else
-    {
-        grounded=false;
-    }
-    
-//Always add xSpeed and ySpeed to your x,y coordinates    
-x+=xSpeed;
-y+=ySpeed;
+        ySpeed = 0;
+        grounded = true;
 
+    } else {
+        grounded = false;
+    }
 
+    //Always add xSpeed and ySpeed to your x,y coordinates    
+    x += xSpeed;
+    y += ySpeed;
 </string>
           </argument>
         </arguments>
@@ -266,7 +259,7 @@ y+=ySpeed;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Jumping animation
+            <string>///JUMPING ANIMATION
 
 //If you're in the air, set the animation to either jumping right or left.
 
@@ -284,6 +277,63 @@ if(facing==left)
         sprite_index=S_Jump_L;
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///DEATH
+
+if(death==true)
+{
+   var DP1=instance_create(x,y,O_Death_Particle);
+   DP1.xSpeed=1*multiplyer;
+   
+   var DP2=instance_create(x,y,O_Death_Particle);
+   
+   DP2.xSpeed=sqrt(1/2)*multiplyer;
+   DP2.ySpeed=-sqrt(1/2)*multiplyer;
+   
+   var DP3=instance_create(x,y,O_Death_Particle);
+   
+   DP3.ySpeed=-1*multiplyer;
+   
+   var DP4=instance_create(x,y,O_Death_Particle);
+   
+    DP4.xSpeed=-sqrt(1/2)*multiplyer;
+   DP4.ySpeed=-sqrt(1/2)*multiplyer;
+   
+   var DP5=instance_create(x,y,O_Death_Particle);
+    DP5.xSpeed=-1*multiplyer;
+   var DP6=instance_create(x,y,O_Death_Particle);
+    DP6.xSpeed=-sqrt(1/2)*multiplyer;
+   DP6.ySpeed=sqrt(1/2)*multiplyer;
+   
+   var DP7=instance_create(x,y,O_Death_Particle);
+   DP7.ySpeed=1*multiplyer;
+   var DP8=instance_create(x,y,O_Death_Particle);
+     DP8.xSpeed=sqrt(1/2)*multiplyer;
+   DP8.ySpeed=sqrt(1/2)*multiplyer;
+   
+   instance_destroy();
+   
+}
+    
 </string>
           </argument>
         </arguments>
@@ -306,10 +356,12 @@ if(facing==left)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
+            <string>/// OVERHEAT BAR
 
-var BLX=20;
-var BLY=20;
+draw_self();
+
+var BLX=view_xview+20;
+var BLY=view_yview+20;
 
 var length_max=100;
 var width=10;
@@ -322,6 +374,31 @@ draw_rectangle(BLX-2,BLY-2,BLX+length_max+2,BLY+width+2,false);
 
 draw_set_color(make_colour_hsv(110-(O_Player.overheat*10),255,255))
 draw_rectangle(BLX,BLY,BLX+length,BLY+width,false);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="17">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// DIE
+
+death=true;
 </string>
           </argument>
         </arguments>

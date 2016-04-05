@@ -48,6 +48,8 @@
         <sprite>sprites\S_CannonBomb</sprite>
       </sprites>
     </sprites>
+    <sprite>sprites\S_Dog_Explode</sprite>
+    <sprite>sprites\S_Level_Control</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\Tileset</background>
@@ -64,16 +66,19 @@
     <object>objects\O_Shake_Big</object>
     <object>objects\O_Shell</object>
     <object>objects\O_Bullet_Explode</object>
-    <object>objects\O_Screen</object>
     <object>objects\O_MiniGunCat</object>
     <object>objects\O_Mini_Bullet</object>
     <object>objects\Enemy_Parent</object>
     <object>objects\O_MiniGun</object>
     <object>objects\O_CatCannon</object>
     <object>objects\O_CannonBomb</object>
+    <object>objects\O_Death_Particle</object>
+    <object>objects\Level_Controller</object>
+    <object>objects\O_Screen</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0_new</room>
+    <room>rooms\Level1</room>
+    <room>rooms\Level2</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

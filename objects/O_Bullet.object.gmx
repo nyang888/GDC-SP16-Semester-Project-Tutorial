@@ -25,14 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>randomize();
+            <string>/// SET SPEED AND DIRECTION
+
+randomize();
 xSpeed = 1;
 instance_create(x,y,O_Shake_Small);
 //gives the bullet a varience in angle
 ySpeed = O_Player.overheat * irandom_range(-10,10)/10;
 
 //sets angle of bullet image
-image_angle = arctan(ySpeed/xSpeed) * 180/pi;
+image_angle=0;
+image_angle = radtodeg((arctan(-ySpeed/xSpeed)));
 </string>
           </argument>
         </arguments>
@@ -55,8 +58,12 @@ image_angle = arctan(ySpeed/xSpeed) * 180/pi;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>y+=ySpeed;
+            <string>/// TRAVEL
+
+y+=ySpeed;
 x+=xSpeed;
+image_angle = radtodeg((arctan(-ySpeed/xSpeed)));
+
 </string>
           </argument>
         </arguments>
@@ -79,7 +86,7 @@ x+=xSpeed;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Death
+            <string>/// DEATH
 audio_play_sound(M_Hit,0,false);
 instance_create(x,y,O_Bullet_Explode);
 instance_destroy();
@@ -105,7 +112,7 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///death
+            <string>/// DEATH
 audio_play_sound(M_Hit_Wall,0,false);
 instance_create(x,y,O_Bullet_Explode);
 instance_destroy();
@@ -131,7 +138,7 @@ instance_destroy();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//remove bullets from game
+            <string>/// DEATH
 instance_destroy();
 </string>
           </argument>
